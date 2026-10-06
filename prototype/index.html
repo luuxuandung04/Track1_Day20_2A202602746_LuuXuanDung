@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P-100 — Prototype Sổ bảo dưỡng thông minh & Retention Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --card-subtle: #192234;
+      --border: #1f293d;
+      --border-accent: #2563eb;
+      --text: #f3f4f6;
+      --text-muted: #94a3b8;
+      --primary: #2563eb;
+      --accent-cyan: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --font: 'Plus Jakarta Sans', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6; padding-bottom: 60px; }
+    .container { max-width: 1300px; margin: 0 auto; padding: 40px 24px; }
+    
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(37, 99, 235, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .lead { font-size: 1.1rem; color: var(--text-muted); max-width: 820px; margin: 0 auto; }
+
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 1050px) {
+      .screens-grid { grid-template-columns: 1fr; }
+    }
+
+    .screen-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .screen-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+    .screen-header {
+      padding: 20px 24px 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .screen-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .screen-title { font-size: 1.2rem; font-weight: 800; color: #fff; }
+
+    .screen-img-container {
+      background: #000;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .screen-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      display: block;
+    }
+
+    .screen-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex-grow: 1;
+    }
+    .box {
+      background: var(--card-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .box-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .box-title.retention { color: #34d399; }
+    .box-title.feature { color: #60a5fa; }
+    .box-title.data { color: #f59e0b; }
+    .box p, .box ul { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+    .box ul { padding-left: 18px; margin-top: 4px; }
+    .box li { margin-bottom: 4px; }
+    code { font-family: var(--mono); font-size: 0.8rem; color: #38bdf8; background: #0d121f; padding: 2px 6px; border-radius: 4px; }
+
+    .summary-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      margin-top: 40px;
+    }
+    .summary-title { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <span class="badge">P-100 EV After-Sales AI Agent</span>
+      <h1>Bộ 3 Màn hình Prototype: Sổ bảo dưỡng thông minh</h1>
+      <p class="lead">Giải pháp giữ chân chủ xe (Retention Engine) bằng dữ liệu sống, ghi chép cá nhân hóa và AI đối soát chi phí tự động.</p>
+    </header>
+
+    <div class="screens-grid">
+
+      <!-- MÀN HÌNH 1 -->
+      <div class="screen-card">
+        <div class="screen-header">
+          <div class="screen-tag">Màn hình 01 • Living Radar</div>
+          <h3 class="screen-title">Sổ bảo dưỡng & Radar tuổi thọ</h3>
+        </div>
+        <div class="screen-img-container">
+          <img src="screen_1_health_radar.jpg" alt="Màn hình 1 - Sổ bảo dưỡng & Radar tuổi thọ" class="screen-img">
+        </div>
+        <div class="screen-body">
+          <div class="box">
+            <div class="box-title retention">🎯 Mục tiêu Retention</div>
+            <p><strong>Tạo thói quen ghé thăm tự nhiên:</strong> Khách tự mở app 1–2 tháng/lần theo ODO để "ngắm" thanh máu xe và giữ Điểm sức khỏe 92/100 chuẩn bảo hành Pin 10 năm mà không cần notification.</p>
+          </div>
+          <div class="box">
+            <div class="box-title feature">💡 Chi tiết thiết kế UX</div>
+            <ul>
+              <li><strong>2 Tab song hành:</strong> Tab Sức khỏe & Dự báo vs Tab Lịch sử chi tiết.</li>
+              <li><strong>Thanh hao mòn ODO:</strong> Lọc gió (46%), Dầu phanh (90%), Nước mát pin (38% cảnh báo).</li>
+              <li><strong>Bấm vào từng thanh:</strong> Xem lịch sử thay món đó trong quá khứ.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title data">⚙️ Nguồn Data P-100 sử dụng</div>
+            <p><code>ServiceItem</code> + <code>MaintenanceRule.interval_km</code> + <code>ServiceHistory.odometer_at_service</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÀN HÌNH 2 -->
+      <div class="screen-card">
+        <div class="screen-header">
+          <div class="screen-tag">Màn hình 02 • Investment Loop</div>
+          <h3 class="screen-title">Ghi chép bảo dưỡng ngoài (Hybrid)</h3>
+        </div>
+        <div class="screen-img-container">
+          <img src="screen_2_add_record.jpg" alt="Màn hình 2 - Ghi chép nâng cấp ngoài" class="screen-img">
+        </div>
+        <div class="screen-body">
+          <div class="box">
+            <div class="box-title retention">🎯 Mục tiêu Retention</div>
+            <p><strong>Vòng lặp đầu tư (Sunk Cost):</strong> Càng nạp nhiều hóa đơn đồ ngoài (thay lốp, dán phim, đồ chơi), cuốn sổ càng trở thành tài sản độc quyền của xe, khách càng không bao giờ xóa app.</p>
+          </div>
+          <div class="box">
+            <div class="box-title feature">💡 Chi tiết thiết kế UX</div>
+            <ul>
+              <li><strong>Hybrid Input:</strong> AI Vision quét hóa đơn trong 2 giây; luôn cho phép tự nhập tay nếu hóa đơn mờ hoặc không có hóa đơn.</li>
+              <li><strong>Future Trigger:</strong> Hộp kiểm <em>"Tự động nhắc đảo lốp lúc 35.000 km"</em> hẹn giờ cho lần quay lại tiếp theo.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title data">⚙️ Nguồn Data P-100 sử dụng</div>
+            <p>Tạo bảng phụ <code>owner_external_records</code> (ODO, ngày, tiền, link ảnh, ghi chú) liên kết vào <code>Vehicle</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÀN HÌNH 3 -->
+      <div class="screen-card">
+        <div class="screen-header">
+          <div class="screen-tag">Màn hình 03 • Financial Reward</div>
+          <h3 class="screen-title">AI Kiểm toán tự động khi Đặt lịch</h3>
+        </div>
+        <div class="screen-img-container">
+          <img src="screen_3_ai_audit.jpg" alt="Màn hình 3 - AI Kiểm toán chi phí" class="screen-img">
+        </div>
+        <div class="screen-body">
+          <div class="box">
+            <div class="box-title retention">🎯 Mục tiêu Retention</div>
+            <p><strong>Cú hích tài chính gây sốc tích cực:</strong> Khách thấy rõ AI đã cứu 450.000đ tiền mặt không bị thay trùng linh kiện $\rightarrow$ Niềm tin tuyệt đối, lần sau bắt buộc quay lại P-100 đặt lịch.</p>
+          </div>
+          <div class="box">
+            <div class="box-title feature">💡 Chi tiết thiết kế UX</div>
+            <ul>
+              <li><strong>Tự động 100%:</strong> AI tự chạy ngầm khi rule kéo mốc lên, không bắt khách bấm nút đối soát.</li>
+              <li><strong>Tương phản giá tiền:</strong> Gạch đỏ <s>1.050.000đ</s> $\rightarrow$ Giá thanh toán 600.000đ.</li>
+              <li><strong>Quyền tự chủ:</strong> Cho phép khách tự bật lại nếu vẫn thích thay.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <div class="box-title data">⚙️ Nguồn Data P-100 sử dụng</div>
+            <p>So sánh danh sách <code>required_service_items</code> của mốc với <code>ServiceHistory</code> và <code>owner_external_records</code>.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="summary-section">
+      <h2 class="summary-title">🔄 Chuỗi giá trị khép kín (The Closed Retention Loop)</h2>
+      <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.7;">
+        1. <strong>Màn hình 1</strong> thôi thúc chủ xe mở app thường xuyên theo ODO để xem độ hao mòn linh kiện và tra cứu hóa đơn cũ $\rightarrow$ Dẫn tới <strong>Màn hình 2</strong> mỗi khi chủ xe thay đồ ở ngoài.<br>
+        2. <strong>Màn hình 2</strong> tích lũy dữ liệu lý lịch xe và cài sẵn lời nhắc tương lai $\rightarrow$ Làm nguyên liệu đầu vào cho <strong>Màn hình 3</strong> đối soát.<br>
+        3. <strong>Màn hình 3</strong> chứng minh giá trị tiết kiệm tiền mặt thật $\rightarrow$ Củng cố niềm tin tuyệt đối để chủ xe tiếp tục duy trì và quay lại <strong>Màn hình 1</strong>!
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>

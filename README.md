@@ -3,9 +3,10 @@
 - **Họ tên:** Lưu Xuân Dũng
 - **Mã học viên (MHV):** 2A202602746
 - **Dự án chọn làm:** P-100 — EV After-Sales AI Agent (Hệ thống hỗ trợ chăm sóc sau bán & lập kế hoạch bảo dưỡng xe điện VinFast)
-- **Link Metrics Pack:**
-  - 🌐 **Bản giao diện trực quan Visual UI (HTML):** [metrics-pack.html](metrics-pack.html) *(Xem trực quan bằng trình duyệt với biểu đồ, thẻ card, trạng thái Gate)*
-  - 📄 **Bản tài liệu Markdown đầy đủ:** [metrics-pack.md](metrics-pack.md)
+- **Link Metrics Pack (đã công khai):**
+  - 🌐 **Live Visual UI (GitHub Pages):** https://luuxuandung04.github.io/Track1_Day20_2A202602746_LuuXuanDung/
+  - 📄 **Markdown Document (GitHub):** https://github.com/luuxuandung04/Track1_Day20_2A202602746_LuuXuanDung/blob/main/metrics-pack.md
+- **Repository GitHub:** https://github.com/luuxuandung04/Track1_Day20_2A202602746_LuuXuanDung
 - **Tên repository khi nộp:** `Track1_Day20_2A202602746_LuuXuanDung`
 
 ---

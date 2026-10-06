@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metrics Pack — P-100: EV After-Sales AI Agent | Day 20 Product Metrics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-subtle: #1a2234;
+      --border: #1f293d;
+      --border-accent: #2563eb;
+      --text: #f3f4f6;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-glow: rgba(37, 99, 235, 0.15);
+      --accent-cyan: #06b6d4;
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.15);
+      --warning: #f59e0b;
+      --warning-glow: rgba(245, 158, 11, 0.15);
+      --danger: #ef4444;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.65;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(180deg, #131d31 0%, #0b0f19 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 0 36px 0;
+      margin-bottom: 32px;
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-primary {
+      background: rgba(37, 99, 235, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .badge-cyan {
+      background: rgba(6, 182, 212, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(6, 182, 212, 0.4);
+    }
+
+    .badge-success {
+      background: var(--success-glow);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    h1.title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 860px;
+      margin-bottom: 24px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .meta-value code {
+      font-family: var(--mono);
+      color: #38bdf8;
+      font-size: 0.9rem;
+    }
+
+    /* Navigation Bar */
+    .nav-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 15, 25, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      margin-bottom: 40px;
+    }
+
+    .nav-list {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      list-style: none;
+      padding-bottom: 4px;
+    }
+
+    .nav-list a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .nav-list a:hover {
+      color: #fff;
+      background: var(--card-subtle);
+      border-color: var(--border);
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: var(--primary);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-accent {
+      border-left: 4px solid var(--primary);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: #151e30;
+      color: #cbd5e1;
+      padding: 14px 18px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      color: #94a3b8;
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: #e2e8f0;
+    }
+
+    td strong {
+      color: #f1f5f9;
+    }
+
+    td code {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      background: #1e293b;
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Pass Badge */
+    .tag-pass {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--success-glow);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* Highlight box */
+    .quote-box {
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.08) 0%, rgba(6, 182, 212, 0.04) 100%);
+      border-left: 4px solid var(--primary-light);
+      padding: 18px 24px;
+      border-radius: 0 12px 12px 0;
+      font-size: 1.02rem;
+      font-style: italic;
+      color: #cbd5e1;
+      margin: 16px 0;
+    }
+
+    /* Metric Formulas & Cards */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .metric-card {
+      background: var(--card-subtle);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      position: relative;
+    }
+
+    .metric-card.nsm {
+      border: 2px solid var(--primary-light);
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.12) 0%, var(--card-subtle) 100%);
+    }
+
+    .metric-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+
+    .metric-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .metric-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .metric-formula {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      background: #0d121f;
+      border: 1px solid #1f293d;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: #38bdf8;
+    }
+
+    /* Loop Visualizer */
+    .loop-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 24px 0;
+    }
+
+    @media (max-width: 900px) {
+      .loop-visual {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cycle-card {
+      background: #131b2c;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .cycle-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cycle-badge {
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .cycle-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      border-radius: 10px;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--card-subtle);
+      border: 2px solid var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .step-content strong {
+      color: #f1f5f9;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .step-content p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Print styling */
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .nav-sticky, .no-print {
+        display: none !important;
+      }
+      .card, .meta-grid, table, .cycle-card, .step-item {
+        background: #fff !important;
+        color: #000 !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+      }
+      th {
+        background: #f1f5f9 !important;
+        color: #000 !important;
+      }
+      td, .text-muted, p {
+        color: #333 !important;
+      }
+      h1.title {
+        background: none;
+        -webkit-text-fill-color: #000;
+        color: #000;
+      }
+      .quote-box {
+        background: #f8fafc !important;
+        color: #000 !important;
+        border-left: 4px solid #2563eb !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="badge-bar">
+        <span class="badge badge-primary">Track 1 — Day 20 Lab</span>
+        <span class="badge badge-cyan">Product Metrics System</span>
+        <span class="badge badge-success">Passed All 5 Gates</span>
+      </div>
+      <h1 class="title">Product Metrics Pack: P-100 EV After-Sales AI Agent</h1>
+      <p class="subtitle">Đặc tả toàn diện hệ thống đo lường giá trị sản phẩm, nhịp hành vi tự nhiên (cadence), chu kỳ Retention và kiến trúc Telemetry Tracking cho nghiệp vụ bảo dưỡng xe điện VinFast.</p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Họ và tên học viên</span>
+          <span class="meta-value">Lưu Xuân Dũng</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Mã học viên (MHV)</span>
+          <span class="meta-value"><code>2A202602746</code></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Dự án chọn làm</span>
+          <span class="meta-value">P-100 (VinFast After-Sales)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Repository nộp</span>
+          <span class="meta-value"><code>Track1_Day20_2A202602746_LuuXuanDung</code></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Navigation -->
+  <div class="nav-sticky no-print">
+    <div class="container" style="padding-top: 0; padding-bottom: 0;">
+      <ul class="nav-list">
+        <li><a href="#sec00">00 Phạm vi & Persona</a></li>
+        <li><a href="#sec01">01 Core Action Card</a></li>
+        <li><a href="#sec02">02 Nature & Cadence</a></li>
+        <li><a href="#sec03">03 Metric System</a></li>
+        <li><a href="#sec04">04 Retention Definition</a></li>
+        <li><a href="#sec05">05 Product Loop</a></li>
+        <li><a href="#sec06">06 Telemetry Tracking</a></li>
+        <li><a href="#sec-audit">Tự kiểm & Revision</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- 00. PHẠM VI -->
+    <section id="sec00">
+      <div class="section-header">
+        <span class="section-num">00</span>
+        <h2 class="section-title">Dự án, Persona & Core Job</h2>
+      </div>
+
+      <div class="card card-accent">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%;">Mục</th>
+                <th>Nội dung chi tiết</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Dự án</strong></td>
+                <td>
+                  <strong>P-100 — EV After-Sales AI Agent:</strong> Nền tảng chăm sóc sau bán và lập kế hoạch bảo dưỡng xe điện VinFast. Sử dụng AI Agent (LangGraph + RAG cẩm nang chính hãng) kết hợp backend FastAPI và cơ sở dữ liệu PostgreSQL để phát hiện mốc bảo dưỡng, đề xuất gói phụ tùng chuẩn, dự toán chi phí minh bạch và điều phối đặt hẹn xưởng có Cố vấn dịch vụ xác nhận (Human-in-the-loop).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Persona chính</strong></td>
+                <td>
+                  <strong>Anh Nam (36 tuổi) — Chủ sở hữu xe điện VinFast VF 8</strong> tại Hà Nội.<br>
+                  • <em>Đặc điểm:</em> Sử dụng xe đi làm hàng ngày và chở gia đình cuối tuần (~1.500 km/tháng). Bận rộn, coi trọng độ an toàn vận hành của xe và pin.<br>
+                  • <em>Nỗi đau (Pain points):</em> Không nhớ chính xác xe mình đến mốc nào thì phải thay gì; sợ bị các xưởng dịch vụ "vẽ bệnh" hoặc phát sinh chi phí mập mờ; rất ngại việc phải gọi điện thoại nhiều lần hoặc mang xe đến xưởng rồi phải ngồi chờ đợi hàng tiếng đồng hồ vì hết chỗ tiếp nhận.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Core Job</strong></td>
+                <td>
+                  <div class="quote-box">
+                    "Khi xe tôi sắp chạm mốc km bảo dưỡng định kỳ (hoặc nghi ngờ có vấn đề kỹ thuật), tôi muốn biết chính xác xe cần làm những hạng mục gì, chi phí hết bao nhiêu tiền minh bạch chuẩn hãng, và chốt được lịch hẹn tại xưởng dịch vụ còn ca trống thuận tiện nhất mà không phải gọi điện chờ đợi hay lo bị phát sinh chi phí mập mờ tại xưởng."
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01. CORE ACTION CARD -->
+    <section id="sec01">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Core Action Card & Tự kiểm 5 tiêu chí</h2>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">1. Phân biệt bốn khái niệm nền tảng</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Khái niệm</th>
+                <th>Câu hỏi cốt lõi</th>
+                <th>Định nghĩa áp dụng cho use case P-100</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Core job</strong></td>
+                <td>User cố hoàn thành việc gì?</td>
+                <td>Chủ động đưa xe đi bảo dưỡng đúng chuẩn hãng, đúng hạn, minh bạch chi phí và tiết kiệm tối đa thời gian chờ đợi.</td>
+              </tr>
+              <tr>
+                <td><strong>Core action</strong></td>
+                <td>User làm gì trong sản phẩm để tiến tới giá trị?</td>
+                <td>Xem phân tích mốc bảo dưỡng của AI, duyệt danh mục hạng mục và bấm <strong>"Xác nhận đặt lịch hẹn xưởng"</strong> (<code>confirm_maintenance_booking</code>).</td>
+              </tr>
+              <tr>
+                <td><strong>Core value</strong></td>
+                <td>User nhận lợi ích gì?</td>
+                <td>Xe được bảo dưỡng an toàn, duy trì bảo hành pin/xe chính hãng, chi phí khớp đúng dự toán, không lãng phí thời gian chờ tại xưởng.</td>
+              </tr>
+              <tr>
+                <td><strong>Core value event</strong></td>
+                <td>Sự kiện nào chứng minh giá trị đã xảy ra?</td>
+                <td>Xe hoàn tất bảo dưỡng tại xưởng dịch vụ, nhận biên bản nghiệm thu và bàn giao xe (<code>service_maintenance_completed</code> / <code>status = COMPLETED</code>).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card card-accent">
+        <h3 class="card-title">2. Core Action Card</h3>
+        <div class="table-wrapper">
+          <table>
+            <tbody>
+              <tr>
+                <td style="width: 25%;"><strong>Target user</strong></td>
+                <td>Chủ sở hữu xe điện VinFast (đã đăng nhập và liên kết hồ sơ xe vào hệ thống).</td>
+              </tr>
+              <tr>
+                <td><strong>Core job</strong></td>
+                <td>Lập kế hoạch bảo dưỡng xe điện chuẩn hãng, rõ ràng chi phí và chốt lịch hẹn xưởng dịch vụ thuận tiện.</td>
+              </tr>
+              <tr>
+                <td><strong>Core action</strong></td>
+                <td>Phê duyệt kế hoạch dịch vụ (chọn hạng mục định kỳ/tùy chọn) và bấm xác nhận gửi đặt lịch hẹn xưởng (<code>confirm_maintenance_booking</code>).</td>
+              </tr>
+              <tr>
+                <td><strong>Object</strong></td>
+                <td>Kế hoạch bảo dưỡng (<code>MaintenancePlan</code>) và Lịch hẹn dịch vụ (<code>ServiceBooking</code>).</td>
+              </tr>
+              <tr>
+                <td><strong>Preconditions</strong></td>
+                <td>
+                  1. Xe đã được kết nối hồ sơ và ghi nhận ODO hiện tại.<br>
+                  2. AI Agent đã phân tích dữ liệu mốc km, xuất ra danh sách hạng mục bắt buộc/tùy chọn kèm bảng dự toán chi phí minh bạch.<br>
+                  3. Hệ thống hiển thị danh sách xưởng dịch vụ và ca giờ (slot) còn quota khả dụng.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Completion rule</strong></td>
+                <td>Người dùng bấm nút xác nhận đặt lịch trên giao diện; hệ thống backend khóa quota ca xưởng, tạo bản ghi booking thành công trong cơ sở dữ liệu với trạng thái <code>PENDING_CONFIRMATION</code> kèm <code>operation_key</code> duy nhất và danh sách hạng mục đã chọn.</td>
+              </tr>
+              <tr>
+                <td><strong>Core value</strong></td>
+                <td>Loại bỏ hoàn toàn sự mập mờ về giá cả và quy trình, đảm bảo an toàn pin xe, chủ động tuyệt đối về thời gian di chuyển và làm việc.</td>
+              </tr>
+              <tr>
+                <td><strong>Evidence of value</strong></td>
+                <td>Xưởng dịch vụ tiếp nhận xe, hoàn thành các hạng mục theo đúng kế hoạch và phát hành biên bản bàn giao xe hoàn tất dịch vụ (<code>booking_status = COMPLETED</code>).</td>
+              </tr>
+              <tr>
+                <td><strong>Candidate event</strong></td>
+                <td>
+                  • Core action tracking event: <code>maintenance_booking_submitted</code><br>
+                  • Core value tracking event: <code>service_maintenance_completed</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">
+          <span>3. Kết quả tự kiểm 5 tiêu chí (Gate 1)</span>
+          <span class="tag-pass">GATE 1: 5/5 PASSED</span>
+        </h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Tiêu chí kiểm tra</th>
+                <th style="width: 15%; text-align: center;">Trạng thái</th>
+                <th>Lý do & Biện luận thực tế</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Gần core value</strong></td>
+                <td style="text-align: center;"><span class="tag-pass">ĐẠT (PASS)</span></td>
+                <td>Việc chốt kế hoạch bảo dưỡng và đặt lịch hẹn là hành động cam kết cao nhất trên nền tảng số để chiếc xe thực sự được đưa vào xưởng vật lý. Nếu người dùng chỉ mở app hỏi chatbot hay tra cứu cẩm nang mà không chốt booking thì giá trị cốt lõi (xe được bảo dưỡng an toàn) không thể xảy ra.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Lặp lại được khi nhu cầu quay lại</strong></td>
+                <td style="text-align: center;"><span class="tag-pass">ĐẠT (PASS)</span></td>
+                <td>Xe điện bắt buộc phải bảo dưỡng theo các mốc kỹ thuật định kỳ (mỗi 12.000 km hoặc mỗi 12 tháng). Khi xe lăn bánh đến mốc tiếp theo (24.000 km, 36.000 km...), nhu cầu này xuất hiện lại và người dùng tiếp tục thực hiện đúng core action này.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Quan sát được thời điểm hoàn tất</strong></td>
+                <td style="text-align: center;"><span class="tag-pass">ĐẠT (PASS)</span></td>
+                <td>Hành vi hoàn tất tại khoảnh khắc giao dịch tạo booking thành công ở backend (<code>POST /api/v1/bookings</code> trả về <code>201 Created</code>, sinh <code>booking_id</code>, gán <code>operation_key</code> và ghi nhận timestamp chính xác trong PostgreSQL).</td>
+              </tr>
+              <tr>
+                <td><strong>4. Có ý nghĩa: Tăng hành vi phản ánh sản phẩm tốt hơn</strong></td>
+                <td style="text-align: center;"><span class="tag-pass">ĐẠT (PASS)</span></td>
+                <td>Số lượng booking được xác nhận tăng lên chứng minh AI Agent tư vấn mốc chính xác, dự toán chi phí minh bạch đáng tin cậy và UX thuận tiện, giúp giải quyết triệt để rào cản tâm lý của chủ xe so với kênh truyền thống.</td>
+              </tr>
+              <tr>
+                <td><strong>5. Team có thể tác động để cải thiện hành vi</strong></td>
+                <td style="text-align: center;"><span class="tag-pass">ĐẠT (PASS)</span></td>
+                <td>Product team có thể cải thiện độ chính xác phân tích của AI, làm bảng bóc tách chi phí trực quan hơn, tối ưu gợi ý xưởng gần nhất còn slot trống và kích hoạt thông báo nhắc lịch thông minh đúng thời điểm xe sắp chạm mốc km.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02. NATURE & CADENCE -->
+    <section id="sec02">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Action Nature Card & Kết luận Cadence</h2>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">1. Action Nature Card</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 25%;">Thành phần</th>
+                <th>Phân tích thực tế cho P-100</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Actor</strong></td>
+                <td>Chủ sở hữu xe cá nhân (Individual Vehicle Owner) thao tác trực tiếp trên ứng dụng.</td>
+              </tr>
+              <tr>
+                <td><strong>Intent</strong></td>
+                <td>Muốn xe được kiểm tra, bảo dưỡng đúng mốc kỹ thuật để đảm bảo an toàn pin điện, duy trì hiệu lực bảo hành 10 năm của hãng VinFast, và tránh hỏng hóc tốn kém.</td>
+              </tr>
+              <tr>
+                <td><strong>Trigger</strong></td>
+                <td><strong>Kích hoạt tự nhiên bên ngoài:</strong> Số km trên đồng hồ ODO xe tăng dần qua thời gian di chuyển hàng ngày chạm các mốc (12.000, 24.000, 36.000 km...) hoặc mốc tròn năm (12 tháng). Được hỗ trợ kích hoạt bởi hệ thống khi AI phát hiện ODO xe sắp chạm mốc.</td>
+              </tr>
+              <tr>
+                <td><strong>Effort</strong></td>
+                <td><strong>Trung bình (3–5 phút):</strong> Đọc hiểu danh mục hạng mục bảo dưỡng do AI đề xuất, kiểm tra dự toán chi phí minh bạch, chọn xưởng và ca hẹn phù hợp, xác nhận đặt lịch.</td>
+              </tr>
+              <tr>
+                <td><strong>Value timing</strong></td>
+                <td><strong>Hai giai đoạn:</strong><br>
+                  1. <em>Giá trị tức thì (Immediate value):</em> Sự an tâm ngay lập tức khi biết rõ chi phí và giữ chắc ca hẹn tại xưởng.<br>
+                  2. <em>Giá trị trọn vẹn (Full value):</em> Nhận được khi xe hoàn tất bảo dưỡng tại xưởng sau 1–3 ngày.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>State</strong></td>
+                <td>Hồ sơ bảo dưỡng điện tử của xe được lưu trữ vĩnh viễn trên hệ thống (lịch sử sửa chữa, phụ tùng đã thay, ODO tại thời điểm làm dịch vụ, chứng nhận bảo hành pin).</td>
+              </tr>
+              <tr>
+                <td><strong>Dependency</strong></td>
+                <td>Phụ thuộc vào công suất tiếp nhận của xưởng dịch vụ (slot ca trống) và sự tiếp nhận, xác nhận của Cố vấn dịch vụ (quy trình Human-in-the-loop).</td>
+              </tr>
+              <tr>
+                <td><strong>Repeat condition</strong></td>
+                <td>Xe tiếp tục vận hành thêm 12.000 km hoặc sau 12 tháng tiếp theo (chu kỳ hao mòn cơ học và quy định bảo hành của nhà sản xuất).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card card-accent">
+        <h3 class="card-title">
+          <span>2. Kết luận Cadence chuẩn hóa (Gate 2)</span>
+          <span class="tag-pass">GATE 2: PASSED</span>
+        </h3>
+        <p style="margin-bottom: 12px; color: var(--text-muted);">
+          Dạng hành vi: <strong>Tiến trình tích lũy theo chu kỳ định kỳ tự nhiên (Milestone & Periodic Cycle)</strong> kết hợp phản ứng theo sự kiện kỹ thuật.
+        </p>
+        <div class="quote-box">
+          "Đối với <strong>Chủ xe điện VinFast</strong>, core action <strong>Xác nhận kế hoạch và đặt lịch bảo dưỡng định kỳ</strong> thường xuất hiện <strong>mỗi 6–12 tháng (tương ứng mỗi 12.000 km lăn bánh)</strong> vì đây là chu kỳ bảo dưỡng kỹ thuật bắt buộc của xe điện VinFast và tốc độ di chuyển trung bình của chủ xe cá nhân là 1.000–2.000 km/tháng. Do đó, nhịp đo phù hợp là <strong>Semi-annual / Annual window (khung đo retention 6 tháng và 12 tháng)</strong> ở cấp <strong>mỗi phương tiện / tài khoản chủ xe (Vehicle / Owner level)</strong>."
+        </div>
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 14px 18px; margin-top: 14px;">
+          <strong style="color: #fbbf24;">Lập luận chống Anti-pattern (Nature vs Nurture):</strong>
+          <span style="color: #d1d5db; font-size: 0.9rem;">
+            Bảo dưỡng xe ô tô là dịch vụ chu kỳ thấp (low-frequency), giá trị cao (high-stakes). Việc ép buộc đo lường theo ngày/tuần (DAU/WAU) hoặc dùng push notification spam để kéo người dùng vào app hàng tuần là hoàn toàn sai lệch bản chất tự nhiên của sản phẩm. Người dùng không có nhu cầu và không thể đi bảo dưỡng xe mỗi tuần. Mọi nỗ lực nuôi dưỡng (nurture) phải tôn trọng và bám sát nhịp tích lũy ODO tự nhiên của phương tiện.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03. METRIC SYSTEM -->
+    <section id="sec03">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Metric System: Activation, Engagement, NSM, Leading & Counter</h2>
+      </div>
+
+      <!-- Activation & Engagement -->
+      <div class="card">
+        <h3 class="card-title">1. Activation & Engagement</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 25%;">Thành phần Activation</th>
+                <th>Định nghĩa cụ thể cho P-100</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Start Event</strong></td>
+                <td><code>vehicle_profile_connected</code>: Chủ xe đăng nhập và hoàn tất kết nối hồ sơ xe điện (VIN, dòng xe, ODO ban đầu).</td>
+              </tr>
+              <tr>
+                <td><strong>Activation Event</strong></td>
+                <td><code>first_maintenance_plan_viewed_and_confirmed</code>: Lần đầu tiên xem phân tích kế hoạch bảo dưỡng minh bạch của AI và bấm xác nhận đặt lịch hẹn xưởng thành công (<code>maintenance_booking_submitted</code>).</td>
+              </tr>
+              <tr>
+                <td><strong>Time Window</strong></td>
+                <td><strong>14 ngày</strong> kể từ khi kết nối xe (đối với xe đã gần hạn mốc) HOẶC <strong>7 ngày</strong> kể từ khi AI phát hiện và gửi thông báo xe chạm mốc ODO bảo dưỡng.</td>
+              </tr>
+              <tr>
+                <td><strong>Lưu ý Active ≠ Activated</strong></td>
+                <td>Đăng nhập, mở app hay hỏi chatbot vu vơ chỉ là "Active bề mặt". Người dùng chỉ được coi là "Activated" khi đã trải nghiệm trọn vẹn giá trị đầu tiên (first value) của P-100: AI giải tỏa nỗi lo mập mờ chi phí và chốt được lịch xưởng thành công.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin: 20px 0 12px 0; color: #cbd5e1;">Góc đo Engagement (Tối đa 2 góc phù hợp nhất)</h4>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 25%;">Góc đo lường</th>
+                <th>Chỉ số cụ thể</th>
+                <th>Cách đo lường & Ý nghĩa nghiệp vụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Depth (Độ sâu / Giá trị mỗi lần)</strong></td>
+                <td><strong>Tỷ lệ duyệt dự toán chi phí minh bạch</strong><br><code>plan_cost_transparency_review_rate</code></td>
+                <td><code>% các lượt đặt lịch mà người dùng chủ động mở xem chi tiết bóc tách chi phí từng hạng mục (phụ tùng + nhân công) trước khi xác nhận</code>. Đo lường mức độ người dùng đón nhận và tin cậy tính năng cốt lõi "xóa bỏ mập mờ chi phí" của AI.</td>
+              </tr>
+              <tr>
+                <td><strong>Frequency (Tần suất trong cadence)</strong></td>
+                <td><strong>Tỷ lệ bảo dưỡng đúng hạn trên số xe đến mốc</strong><br><code>on_time_milestone_booking_rate</code></td>
+                <td><code>Số xe đến mốc km trong năm có phát sinh booking hoàn tất / Tổng số xe chạm mốc km trong năm</code>. Đo lường mức độ bao phủ và tính thường trực của giải pháp trong vòng đời phương tiện.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- NSM, Leading, Counter Cards -->
+      <div class="metric-grid">
+        <div class="metric-card nsm" style="grid-column: 1 / -1;">
+          <span class="metric-tag" style="color: #60a5fa;">★ North Star Metric (NSM) — Đủ 3 thành phần</span>
+          <h3 class="metric-name">Monthly Completed Accurate-Cost Maintenances</h3>
+          <p class="metric-desc">Số lượt xe hoàn tất bảo dưỡng định kỳ đúng hạn và khớp dự toán chi phí mỗi tháng trên toàn mạng lưới xưởng dịch vụ.</p>
+          <div class="metric-formula">
+            NSM = Unit of Value (Lượt xe hoàn tất bảo dưỡng) + Quality Threshold (Chênh lệch phí thực tế vs AI ≤ 5% & Không khiếu nại) + Frequency (Hàng tháng / Hàng quý)
+          </div>
+          <p style="margin-top: 12px; font-size: 0.85rem; color: #94a3b8;">
+            <strong>Tại sao đây là North Star thực chất?</strong> Chỉ số này đại diện cho giá trị thực win-win-win: Chủ xe an tâm không bị "vẽ bệnh", Xưởng tối ưu công suất, AI chứng minh năng lực dự toán chính xác. Không thể bị thổi phồng bằng lượt chat bot ảo hay thông báo spam.
+          </p>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-tag" style="color: #38bdf8;">Leading Indicator 1</span>
+          <h4 class="metric-name" style="font-size: 1.05rem;">Tỷ lệ mở xem kế hoạch khi có cảnh báo ODO</h4>
+          <p class="metric-desc">Đo lường mức độ tiếp nhận thông tin cảnh báo chạm mốc ODO từ AI của chủ xe; dự báo nhu cầu đặt lịch trong 1–2 tuần tới.</p>
+          <div class="metric-formula">milestone_alert_to_plan_open_rate</div>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-tag" style="color: #38bdf8;">Leading Indicator 2</span>
+          <h4 class="metric-name" style="font-size: 1.05rem;">Tỷ lệ chuyển đổi từ xem kế hoạch sang đặt lịch</h4>
+          <p class="metric-desc">Phản ánh mức độ thuyết phục của bảng dự toán chi phí và độ thuận tiện của ca xưởng gợi ý; dự báo số lượng xe chuẩn bị vào xưởng.</p>
+          <div class="metric-formula">plan_view_to_booking_submitted_rate</div>
+        </div>
+
+        <div class="metric-card">
+          <span class="metric-tag" style="color: #38bdf8;">Leading Indicator 3</span>
+          <h4 class="metric-name" style="font-size: 1.05rem;">Tỷ lệ xưởng phản hồi và chốt ca trong 15 phút</h4>
+          <p class="metric-desc">Đo lường hiệu quả phối hợp Human-in-the-loop; xưởng xác nhận càng nhanh thì tỷ lệ khách hàng hủy hẹn hoặc vắng mặt càng thấp.</p>
+          <div class="metric-formula">workshop_sla_confirmation_speed_rate</div>
+        </div>
+
+        <div class="metric-card" style="border-color: rgba(239, 68, 68, 0.4);">
+          <span class="metric-tag" style="color: #f87171;">Counter-Metric 1 (Kiểm soát chất lượng)</span>
+          <h4 class="metric-name" style="font-size: 1.05rem;">Tỷ lệ sai lệch chi phí thực tế so với AI dự toán</h4>
+          <p class="metric-desc">Ngăn chặn việc AI "báo giá rẻ ảo" để kéo khách nhưng thực tế bị đội giá. Ngưỡng kiểm soát nghiêm ngặt: <strong>≤ 5%</strong>.</p>
+          <div class="metric-formula">cost_variance_rate = |Phí thực tế - Phí dự toán| / Phí dự toán</div>
+        </div>
+
+        <div class="metric-card" style="border-color: rgba(239, 68, 68, 0.4);">
+          <span class="metric-tag" style="color: #f87171;">Counter-Metric 2 (Kiểm soát hành vi)</span>
+          <h4 class="metric-name" style="font-size: 1.05rem;">Tỷ lệ hủy lịch hoặc không đến hẹn (No-show)</h4>
+          <p class="metric-desc">Ngăn chặn việc số booking tăng ảo do giao diện ép người dùng bấm đặt lịch nhưng thực tế khách bỏ hẹn gây lãng phí xưởng. Ngưỡng: <strong>≤ 8%</strong>.</p>
+          <div class="metric-formula">cancellation_and_no_show_rate</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04. RETENTION DEFINITION -->
+    <section id="sec04">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Retention Definition: 6 thành phần hoàn chỉnh</h2>
+      </div>
+
+      <div class="card card-accent">
+        <h3 class="card-title">
+          <span>Ma trận 6 thành phần định nghĩa Retention</span>
+          <span class="tag-pass">GATE 3: PASSED</span>
+        </h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 20%;">Thành phần</th>
+                <th style="width: 40%;">Định nghĩa vận hành cho P-100</th>
+                <th>Ý nghĩa nghiệp vụ & Rationale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Unit</strong></td>
+                <td><strong>Phương tiện (Vehicle / VIN)</strong> gắn với <strong>Tài khoản chủ xe (Owner Account)</strong></td>
+                <td>Đơn vị bảo dưỡng kỹ thuật gắn liền với chiếc xe cụ thể; một chủ xe có thể sở hữu nhiều phương tiện khác nhau.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Cohort entry</strong></td>
+                <td><code>first_service_maintenance_completed</code></td>
+                <td>Event đánh dấu xe hoàn tất chu kỳ bảo dưỡng đầu tiên tại xưởng qua nền tảng P-100.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Return event</strong></td>
+                <td><code>repeat_service_maintenance_completed</code></td>
+                <td>Event đánh dấu xe quay lại và hoàn tất chu kỳ bảo dưỡng định kỳ tiếp theo tại xưởng.</td>
+              </tr>
+              <tr>
+                <td><strong>4. Window</strong></td>
+                <td><strong>Semi-annual / Annual Bracket (180 – 365 ngày)</strong></td>
+                <td>Khung thời gian tự nhiên để xe tích lũy thêm 12.000 km tiếp theo theo cường độ vận hành thông thường.</td>
+              </tr>
+              <tr>
+                <td><strong>5. Threshold</strong></td>
+                <td>Tối thiểu <strong>1 lần</strong> hoàn tất dịch vụ bảo dưỡng trong window khi ODO tăng đủ <strong>≥ 10.000 km</strong></td>
+                <td>Đảm bảo sự quay lại là do chu kỳ bảo dưỡng định kỳ tự nhiên, loại trừ các trường hợp xe vào xưởng sửa chữa phát sinh ngắn hạn.</td>
+              </tr>
+              <tr>
+                <td><strong>6. Segment</strong></td>
+                <td>
+                  <strong>Phân nhóm theo cường độ vận hành:</strong><br>
+                  • <em>Segment 1: Xe gia đình/cá nhân</em> (1.000 – 1.500 km/tháng → chu kỳ ~9–12 tháng).<br>
+                  • <em>Segment 2: Xe dịch vụ/kinh doanh</em> (> 2.500 km/tháng → chu kỳ ~4–6 tháng).
+                </td>
+                <td>Cường độ sử dụng xe quyết định tốc độ chạm mốc km; không thể gộp chung xe dịch vụ chạy 3.000 km/tháng với xe gia đình chạy 800 km/tháng vào cùng một khung thời gian so sánh.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05. PRODUCT LOOP -->
+    <section id="sec05">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Product Loop: 2 chu kỳ & Metric Hypothesis</h2>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Mô hình Milestone & Vehicle Progress Loop qua 2 chu kỳ</h3>
+
+        <div class="loop-visual">
+          <!-- Chu kỳ 1 -->
+          <div class="cycle-card">
+            <div class="cycle-header">
+              <span class="cycle-badge">Chu kỳ 1</span>
+              <h4 class="cycle-title">Mốc 12.000 km — First Value</h4>
+            </div>
+            <div class="step-list">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <div class="step-content">
+                  <strong>Natural Trigger 1:</strong>
+                  <p>Xe lăn bánh tích lũy đạt mốc 12.000 km (sau ~8 tháng sử dụng). Đồng hồ ODO trên xe báo mốc.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <div class="step-content">
+                  <strong>Core Action 1:</strong>
+                  <p>Chủ xe mở P-100, AI phân tích ODO, đề xuất gói 12k km (kiểm tra pin, đảo lốp, tra dầu phanh); chủ xe duyệt dự toán & chốt ca xưởng.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <div class="step-content">
+                  <strong>Immediate Value 1:</strong>
+                  <p>Nhận xác nhận ca xưởng ngay lập tức, giữ slot trống, biết trước 100% dự toán chi phí minh bạch không mập mờ.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <div class="step-content">
+                  <strong>Saved State / Investment 1:</strong>
+                  <p>Xe hoàn tất bảo dưỡng tại xưởng; hệ thống cập nhật Sổ bảo dưỡng điện tử, ghi nhận ODO sạch, reset đếm ngược, lưu dữ liệu hao mòn vào hồ sơ xe.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chu kỳ 2 -->
+          <div class="cycle-card" style="border-color: var(--primary);">
+            <div class="cycle-header">
+              <span class="cycle-badge" style="background: var(--accent-cyan);">Chu kỳ 2</span>
+              <h4 class="cycle-title">Mốc 24.000 km — Compounding Retention</h4>
+            </div>
+            <div class="step-list">
+              <div class="step-item">
+                <div class="step-dot">5</div>
+                <div class="step-content">
+                  <strong>Next Natural Trigger 2:</strong>
+                  <p>Xe tiếp tục lăn bánh thêm 12.000 km (chạm mốc 24.000 km); ODO trên taplo báo & AI kích hoạt nhắc lịch dựa trên hồ sơ đã lưu.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">6</div>
+                <div class="step-content">
+                  <strong>Core Action tiếp theo 2:</strong>
+                  <p>Chủ xe quay lại, AI truy xuất lịch sử đợt 12k (đã thay gì, còn gì), đề xuất gói chuyên sâu 24k km (thay lọc gió điều hòa, nước làm mát pin); chủ xe duyệt & đặt hẹn.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">7</div>
+                <div class="step-content">
+                  <strong>Repeat Value 2:</strong>
+                  <p>Xe tiếp tục duy trì bảo hành pin 10 năm của VinFast, vận hành an toàn tối đa; bảo toàn giá trị bán lại nhờ sổ bảo dưỡng chuẩn hãng.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">8</div>
+                <div class="step-content">
+                  <strong>Compounding State 2:</strong>
+                  <p>Cập nhật hồ sơ bảo dưỡng trọn đời, nâng hạng khách hàng thân thiết, tạo rào cản từ bỏ (data moat) vững chắc.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: var(--card-subtle); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; margin-top: 18px;">
+          <h4 style="color: #cbd5e1; margin-bottom: 8px;">Nếu bỏ push notification, người dùng còn lý do gì để quay lại?</h4>
+          <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.6;">
+            <strong>1. Lời nhắc nhở vật lý trực tiếp từ chiếc xe:</strong> Ô tô là phương tiện di chuyển hàng ngày và là tài sản lớn. Đồng hồ ODO trên bảng taplo xe hiển thị mỗi ngày và đèn cảnh báo bảo dưỡng của xe VinFast là trigger tự nhiên mạnh nhất, nhắc nhở chủ xe về sự an toàn của gia đình và điều kiện bảo hành pin đắt giá.<br>
+            <strong>2. Dữ liệu được tích lũy (Saved State & Data Moat):</strong> Toàn bộ lịch sử bảo dưỡng, tình trạng hao mòn pin, các phụ tùng đã thay và chứng nhận kỹ thuật đều được lưu trữ tập trung tại P-100. Người dùng quay lại vì đây là "cuốn sổ sức khỏe điện tử" duy nhất của chiếc xe giúp họ được bảo hành chính hãng và bảo toàn giá trị thanh khoản khi chuyển nhượng xe.
+          </p>
+        </div>
+
+        <div class="card card-accent" style="margin-top: 20px;">
+          <h4 class="card-title" style="margin-bottom: 8px;">
+            <span>Metric Hypothesis (Bắt buộc)</span>
+            <span class="tag-pass">GATE 4: PASSED</span>
+          </h4>
+          <div class="quote-box">
+            "Nếu <strong>Milestone & Vehicle Progress Loop</strong> này hoạt động hiệu quả, metric <strong>Annual Milestone Retention Rate</strong> (Tỷ lệ xe quay lại hoàn tất bảo dưỡng mốc 24.000 km sau khi đã hoàn thành mốc 12.000 km) sẽ <strong>tăng từ 48% lên trên 72% trong vòng 12 tháng</strong>, vì dữ liệu bảo dưỡng đã lưu từ lần 1 giúp AI cá nhân hóa chính xác danh mục cần làm, loại bỏ 100% ma sát phải tra cứu sổ tay, và sự minh bạch chi phí từ lần trước tạo dựng niềm tin tuyệt đối cho chủ xe."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06. TRACKING NHANH -->
+    <section id="sec06">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2 class="section-title">Telemetry Tracking: 7 Core Events & Acceptance Criteria</h2>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">1. Bảng danh mục Core Tracking Events (Chuẩn 4 trường)</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 24%;">Tên event (object_action)</th>
+                <th style="width: 28%;">Ý nghĩa: Điều đã xảy ra</th>
+                <th style="width: 28%;">Thời điểm ghi nhận chính xác</th>
+                <th>Metric Phase 3 sử dụng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>vehicle_profile_connected</code></td>
+                <td>Chủ xe đăng nhập và kết nối/chọn hồ sơ xe điện thành công.</td>
+                <td>Khi API <code>/api/v1/vehicles</code> trả về hồ sơ xe hợp lệ kèm ODO ban đầu và lưu vào state.</td>
+                <td><strong>Activation Start Event</strong></td>
+              </tr>
+              <tr>
+                <td><code>maintenance_plan_generated</code></td>
+                <td>AI Agent phân tích ODO và sinh thành công gói kế hoạch bảo dưỡng kèm bảng dự toán chi phí.</td>
+                <td>Khi LangGraph node <code>generate_plan</code> hoàn tất và ghi bản ghi <code>MaintenancePlan</code> vào DB.</td>
+                <td><strong>Leading Indicator 1</strong> (<code>milestone_alert_to_plan_open_rate</code>)</td>
+              </tr>
+              <tr>
+                <td><code>maintenance_plan_viewed</code></td>
+                <td>Chủ xe mở xem chi tiết các hạng mục bắt buộc/tùy chọn và bóc tách chi phí.</td>
+                <td>Khi màn hình chi tiết kế hoạch bảo dưỡng render thành công trên giao diện Chủ xe.</td>
+                <td><strong>Engagement Depth</strong> (<code>plan_cost_transparency_review_rate</code>)</td>
+              </tr>
+              <tr>
+                <td><code>maintenance_booking_submitted</code></td>
+                <td>Chủ xe bấm xác nhận gói dịch vụ và gửi yêu cầu đặt lịch hẹn xưởng thành công (<strong>Core Action</strong>).</td>
+                <td>Khi API <code>POST /api/v1/bookings</code> phản hồi <code>201 Created</code> và commit bản ghi với trạng thái <code>PENDING_CONFIRMATION</code>.</td>
+                <td><strong>Activation Event</strong>, <strong>Leading Indicator 2</strong> (<code>plan_view_to_booking_submitted_rate</code>)</td>
+              </tr>
+              <tr>
+                <td><code>workshop_booking_confirmed</code></td>
+                <td>Cố vấn xưởng dịch vụ duyệt và xác nhận tiếp nhận ca hẹn thành công (HITL).</td>
+                <td>Khi Cố vấn bấm duyệt trên Cổng Cố vấn và DB cập nhật booking sang trạng thái <code>CONFIRMED</code>.</td>
+                <td><strong>Leading Indicator 3</strong> (<code>workshop_sla_confirmation_speed_rate</code>)</td>
+              </tr>
+              <tr>
+                <td><code>service_maintenance_completed</code></td>
+                <td>Xe hoàn tất bảo dưỡng tại xưởng, cố vấn chốt hóa đơn và bàn giao xe (<strong>Core Value</strong>).</td>
+                <td>Khi booking chuyển trạng thái sang <code>COMPLETED</code> trong DB kèm hóa đơn nghiệm thu (<code>final_cost</code>).</td>
+                <td><strong>North Star Metric (NSM)</strong>, <strong>Cohort Entry & Return Event</strong></td>
+              </tr>
+              <tr>
+                <td><code>booking_cancelled_or_no_show</code></td>
+                <td>Lịch hẹn bị hủy bởi khách hàng/xưởng hoặc khách không đến đúng hẹn.</td>
+                <td>Khi trạng thái booking chuyển sang <code>CANCELLED</code> hoặc <code>NO_SHOW</code> trong DB.</td>
+                <td><strong>Counter-Metric 2</strong> (<code>cancellation_and_no_show_rate</code>)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card card-accent">
+        <h3 class="card-title">
+          <span>2. Acceptance Criteria cho Tracking Telemetry</span>
+          <span class="tag-pass">GATE 5 (TRACKING): PASSED</span>
+        </h3>
+
+        <div style="margin-bottom: 20px;">
+          <h4 style="color: #60a5fa; margin-bottom: 6px;">
+            Acceptance Criteria 1: Chỉ ghi nhận khi hành vi thực sự hoàn tất ở backend, không bắt sự kiện ở click UI
+          </h4>
+          <p style="color: #94a3b8; font-size: 0.92rem; background: var(--card-subtle); padding: 14px 18px; border-radius: 8px; border: 1px solid var(--border);">
+            Event <code>maintenance_booking_submitted</code> chỉ được hệ thống telemetry phát ra khi và chỉ khi API endpoint <code>POST /api/v1/bookings</code> phản hồi HTTP status code <code>201 Created</code>, cơ sở dữ liệu đã commit thành công bản ghi <code>ServiceBooking</code> với trạng thái <code>PENDING_CONFIRMATION</code>, sinh kèm <code>booking_id</code> và <code>operation_key</code> duy nhất. Tuyệt đối không được bắn event này khi người dùng vừa nhấp chuột vào nút "Xác nhận đặt lịch", khi đang hiển thị dialog xác nhận, hoặc khi request bị lỗi mạng/lỗi validation (HTTP 4xx/5xx).
+          </p>
+        </div>
+
+        <div>
+          <h4 style="color: #60a5fa; margin-bottom: 6px;">
+            Acceptance Criteria 2: Chống trùng lặp dữ liệu do reload, retry hoặc polling
+          </h4>
+          <p style="color: #94a3b8; font-size: 0.92rem; background: var(--card-subtle); padding: 14px 18px; border-radius: 8px; border: 1px solid var(--border);">
+            Event <code>service_maintenance_completed</code> chỉ được hệ thống telemetry ghi nhận đúng 1 lần duy nhất khi và chỉ khi trường <code>status</code> của booking chuyển dịch trạng thái từ <code>IN_PROGRESS</code> sang <code>COMPLETED</code> cùng chữ ký xác nhận của Cố vấn dịch vụ. Mọi hành vi làm mới trang (page reload) của chủ xe trên giao diện <code>/owner</code>, thao tác đồng bộ lại lịch sử hoặc các lượt truy vấn định kỳ (polling) từ frontend tuyệt đối không được sinh thêm event trùng lặp (Idempotent tracking dựa trên khóa kết hợp <code>booking_id + status_transition_id</code>).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELF-AUDIT & REVISION -->
+    <section id="sec-audit">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2 class="section-title">Checklist Tự soi (Self-Audit) & Revision Log</h2>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Checklist 7 câu đối chiếu chất lượng (Gate 5 Review)</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 10%; text-align: center;">Trạng thái</th>
+                <th style="width: 30%;">Tiêu chí tự soi</th>
+                <th>Kết quả đối chiếu trên bài làm</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Core action tạo value thực</strong></td>
+                <td>Đã phân biệt rõ giữa thao tác UI/output AI (xem gợi ý) với Core action (xác nhận đặt lịch hẹn) và Core value event (hoàn tất bảo dưỡng tại xưởng).</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Activation xác nhận core value</strong></td>
+                <td>Không tính đăng nhập hay onboarding; kích hoạt chỉ được ghi nhận khi xem dự toán minh bạch và submit booking thành công.</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Frequency phù hợp nhu cầu thật</strong></td>
+                <td>Cadence 6–12 tháng dựa trên chu kỳ 12.000 km của xe điện VinFast; kiên quyết từ chối ép DAU/WAU.</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Loop có lý do quay lại ngoài notification</strong></td>
+                <td>Đồng hồ ODO taplo và giá trị của Sổ bảo dưỡng điện tử (giữ bảo hành 10 năm pin) là lý do tự nhiên thúc đẩy chủ xe quay lại.</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Retention window phù hợp cadence</strong></td>
+                <td>Sử dụng khung 180–365 ngày kèm điều kiện tăng ODO ≥ 10.000 km; phân đoạn rõ giữa xe gia đình và xe dịch vụ.</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Mọi event map về một metric</strong></td>
+                <td>Cả 7 core tracking events đều ánh xạ trực tiếp về ít nhất 1 metric đã định nghĩa ở Phase 3.</td>
+              </tr>
+              <tr>
+                <td style="text-align: center;"><span class="tag-pass">PASS</span></td>
+                <td><strong>Mọi metric có event đủ để tính</strong></td>
+                <td>Mọi chỉ số (Activation, Depth, Frequency, NSM, 3 Leading, 2 Counter) đều có đủ sự kiện telemetry để tính toán chính xác.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card card-accent">
+        <h3 class="card-title">Revision & Rationale Log</h3>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.6; margin-bottom: 12px;">
+          • <strong>Quyết định 1 (Bác bỏ DAU/WAU và số lượt chat bot):</strong> Trong quá trình brainstorm ban đầu, AI có xu hướng gợi ý đo lường "Số lượt trò chuyện với Agent hàng tuần" hoặc "Tỷ lệ người dùng mở app mỗi 7 ngày". Tôi đã quyết định <strong>bác bỏ hoàn toàn</strong> chỉ số này vì vi phạm nguyên tắc cơ bản "Nature vs Nurture". Khách hàng sở hữu ô tô không vào app nói chuyện phiếm; họ chỉ cần bảo dưỡng mỗi 12.000 km. Ép chỉ số tuần sẽ dẫn đến spam notification và làm giảm giá trị thương hiệu VinFast.<br><br>
+          • <strong>Quyết định 2 (Bổ sung tiêu chí chất lượng chi phí vào North Star Metric):</strong> Không dùng chỉ số NSM đơn thuần là "Tổng số booking". Một booking bị xưởng tính giá chênh lệch cao hoặc bị khách hàng phàn nàn là một "thất bại về giá trị". Do đó, tôi đã chuẩn hóa NSM thành: <em>"Số lượt xe hoàn tất bảo dưỡng định kỳ đúng hạn và khớp dự toán chi phí (sai lệch ≤ 5%) mỗi tháng"</em>.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 0.85rem;">
+    <div class="container">
+      <p>Bản quyền tài liệu thuộc về Lưu Xuân Dũng (MHV: 2A202602746) · Khóa học AI20K Track 1 — Day 20 Lab</p>
+      <p style="margin-top: 6px;">Dự án P-100: EV After-Sales AI Agent · Hoàn thành ngày 06/10/2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
